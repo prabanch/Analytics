@@ -1,0 +1,890 @@
+
+R version 3.3.1 (2016-06-21) -- "Bug in Your Hair"
+Copyright (C) 2016 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> setwd("C:\Users\prabanch\Desktop\R Programming")
+Error: '\U' used without hex digits in character string starting ""C:\U"
+> setwd("C:/Users/prabanch/Desktop/R Programming")
+> getwd
+function () 
+.Internal(getwd())
+<bytecode: 0x00000000139531e8>
+<environment: namespace:base>
+> getwd()
+[1] "C:/Users/prabanch/Desktop/R Programming"
+> setwd("C:/Users/prabanch/Desktop/R Programming 2")
+Error in setwd("C:/Users/prabanch/Desktop/R Programming 2") : 
+  cannot change working directory
+> setwd("C:/Users/prabanch/Desktop/R Programming 2")
+> 
+> getwd()
+[1] "C:/Users/prabanch/Desktop/R Programming 2"
+> setwd("C:/Users/prabanch/Desktop/R Programming")
+> getwd()
+[1] "C:/Users/prabanch/Desktop/R Programming"
+> utils:::menuInstallPkgs()
+--- Please select a CRAN mirror for use in this session ---
+Error in contrib.url(repos, type) : 
+  trying to use CRAN without setting a mirror
+> x<-1:100
+> x
+  [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40
+ [41]  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72  73  74  75  76  77  78  79  80
+ [81]  81  82  83  84  85  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100
+> x<-1:1000
+> x
+   [1]    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32
+  [33]   33   34   35   36   37   38   39   40   41   42   43   44   45   46   47   48   49   50   51   52   53   54   55   56   57   58   59   60   61   62   63   64
+  [65]   65   66   67   68   69   70   71   72   73   74   75   76   77   78   79   80   81   82   83   84   85   86   87   88   89   90   91   92   93   94   95   96
+  [97]   97   98   99  100  101  102  103  104  105  106  107  108  109  110  111  112  113  114  115  116  117  118  119  120  121  122  123  124  125  126  127  128
+ [129]  129  130  131  132  133  134  135  136  137  138  139  140  141  142  143  144  145  146  147  148  149  150  151  152  153  154  155  156  157  158  159  160
+ [161]  161  162  163  164  165  166  167  168  169  170  171  172  173  174  175  176  177  178  179  180  181  182  183  184  185  186  187  188  189  190  191  192
+ [193]  193  194  195  196  197  198  199  200  201  202  203  204  205  206  207  208  209  210  211  212  213  214  215  216  217  218  219  220  221  222  223  224
+ [225]  225  226  227  228  229  230  231  232  233  234  235  236  237  238  239  240  241  242  243  244  245  246  247  248  249  250  251  252  253  254  255  256
+ [257]  257  258  259  260  261  262  263  264  265  266  267  268  269  270  271  272  273  274  275  276  277  278  279  280  281  282  283  284  285  286  287  288
+ [289]  289  290  291  292  293  294  295  296  297  298  299  300  301  302  303  304  305  306  307  308  309  310  311  312  313  314  315  316  317  318  319  320
+ [321]  321  322  323  324  325  326  327  328  329  330  331  332  333  334  335  336  337  338  339  340  341  342  343  344  345  346  347  348  349  350  351  352
+ [353]  353  354  355  356  357  358  359  360  361  362  363  364  365  366  367  368  369  370  371  372  373  374  375  376  377  378  379  380  381  382  383  384
+ [385]  385  386  387  388  389  390  391  392  393  394  395  396  397  398  399  400  401  402  403  404  405  406  407  408  409  410  411  412  413  414  415  416
+ [417]  417  418  419  420  421  422  423  424  425  426  427  428  429  430  431  432  433  434  435  436  437  438  439  440  441  442  443  444  445  446  447  448
+ [449]  449  450  451  452  453  454  455  456  457  458  459  460  461  462  463  464  465  466  467  468  469  470  471  472  473  474  475  476  477  478  479  480
+ [481]  481  482  483  484  485  486  487  488  489  490  491  492  493  494  495  496  497  498  499  500  501  502  503  504  505  506  507  508  509  510  511  512
+ [513]  513  514  515  516  517  518  519  520  521  522  523  524  525  526  527  528  529  530  531  532  533  534  535  536  537  538  539  540  541  542  543  544
+ [545]  545  546  547  548  549  550  551  552  553  554  555  556  557  558  559  560  561  562  563  564  565  566  567  568  569  570  571  572  573  574  575  576
+ [577]  577  578  579  580  581  582  583  584  585  586  587  588  589  590  591  592  593  594  595  596  597  598  599  600  601  602  603  604  605  606  607  608
+ [609]  609  610  611  612  613  614  615  616  617  618  619  620  621  622  623  624  625  626  627  628  629  630  631  632  633  634  635  636  637  638  639  640
+ [641]  641  642  643  644  645  646  647  648  649  650  651  652  653  654  655  656  657  658  659  660  661  662  663  664  665  666  667  668  669  670  671  672
+ [673]  673  674  675  676  677  678  679  680  681  682  683  684  685  686  687  688  689  690  691  692  693  694  695  696  697  698  699  700  701  702  703  704
+ [705]  705  706  707  708  709  710  711  712  713  714  715  716  717  718  719  720  721  722  723  724  725  726  727  728  729  730  731  732  733  734  735  736
+ [737]  737  738  739  740  741  742  743  744  745  746  747  748  749  750  751  752  753  754  755  756  757  758  759  760  761  762  763  764  765  766  767  768
+ [769]  769  770  771  772  773  774  775  776  777  778  779  780  781  782  783  784  785  786  787  788  789  790  791  792  793  794  795  796  797  798  799  800
+ [801]  801  802  803  804  805  806  807  808  809  810  811  812  813  814  815  816  817  818  819  820  821  822  823  824  825  826  827  828  829  830  831  832
+ [833]  833  834  835  836  837  838  839  840  841  842  843  844  845  846  847  848  849  850  851  852  853  854  855  856  857  858  859  860  861  862  863  864
+ [865]  865  866  867  868  869  870  871  872  873  874  875  876  877  878  879  880  881  882  883  884  885  886  887  888  889  890  891  892  893  894  895  896
+ [897]  897  898  899  900  901  902  903  904  905  906  907  908  909  910  911  912  913  914  915  916  917  918  919  920  921  922  923  924  925  926  927  928
+ [929]  929  930  931  932  933  934  935  936  937  938  939  940  941  942  943  944  945  946  947  948  949  950  951  952  953  954  955  956  957  958  959  960
+ [961]  961  962  963  964  965  966  967  968  969  970  971  972  973  974  975  976  977  978  979  980  981  982  983  984  985  986  987  988  989  990  991  992
+ [993]  993  994  995  996  997  998  999 1000
+> x<-1:100
+> x
+  [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40
+ [41]  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72  73  74  75  76  77  78  79  80
+ [81]  81  82  83  84  85  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100
+> 12+5
+[1] 17
+> x<-1:100
+> x
+  [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  38  39  40
+ [41]  41  42  43  44  45  46  47  48  49  50  51  52  53  54  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72  73  74  75  76  77  78  79  80
+ [81]  81  82  83  84  85  86  87  88  89  90  91  92  93  94  95  96  97  98  99 100
+> 12+5
+[1] 17
+> c(1256,237,6780,10000,12000)
+[1]  1256   237  6780 10000 12000
+> mileage<-c(1256,237,6780,10000,12000)
+> mileage
+[1]  1256   237  6780 10000 12000
+> type<-c("Compact","minivan","suv","roadster","pickup","truck")
+> type
+[1] "Compact"  "minivan"  "suv"      "roadster" "pickup"   "truck"   
+> c1("Compact","minivan","suv","roadster","pickup","truck")
+Error: could not find function "c1"
+> cc("Compact","minivan","suv","roadster","pickup","truck")
+Error: could not find function "cc"
+> c
+function (..., recursive = FALSE)  .Primitive("c")
+> c
+function (..., recursive = FALSE)  .Primitive("c")
+> type
+[1] "Compact"  "minivan"  "suv"      "roadster" "pickup"   "truck"   
+> mileage
+[1]  1256   237  6780 10000 12000
+> 
+> 
+> 
+> Type
+Error: object 'Type' not found
+> type
+[1] "Compact"  "minivan"  "suv"      "roadster" "pickup"   "truck"   
+> m<-matrix(data=c(2,3,4,5),nrow=2,ncol=2)
+> m
+     [,1] [,2]
+[1,]    2    4
+[2,]    3    5
+> m<-matrix(data=c(2,3,4,5),nrow=4,ncol=4)
+> m
+     [,1] [,2] [,3] [,4]
+[1,]    2    2    2    2
+[2,]    3    3    3    3
+[3,]    4    4    4    4
+[4,]    5    5    5    5
+> m
+     [,1] [,2] [,3] [,4]
+[1,]    2    2    2    2
+[2,]    3    3    3    3
+[3,]    4    4    4    4
+[4,]    5    5    5    5
+> 
+> m<-matrix(data=c(2,3,4,5),2,4)
+> m
+     [,1] [,2] [,3] [,4]
+[1,]    2    4    2    4
+[2,]    3    5    3    5
+> m<-matrix(data=c(2,3,4,5),2,2)
+> m
+     [,1] [,2]
+[1,]    2    4
+[2,]    3    5
+> price<-c(36790,3445,66789,2455,768890
++ price<-c(36790,3445,66789,2455,768890
+Error: unexpected symbol in:
+"price<-c(36790,3445,66789,2455,768890
+price"
+> price<-c(36790,3445,66789,2455,768890)
+> no.cyl<-c(3,4,4,4,4)
+> price
+[1]  36790   3445  66789   2455 768890
+> no
+Error: object 'no' not found
+> no.cyl
+[1] 3 4 4 4 4
+> price(36790,3445,66789,2455,768890)
+Error: could not find function "price"
+> price<-c(36790,3445,66789,2455,768890)
+> cars<-data.frame(type,price,mileage,no.cyl)
+Error in data.frame(type, price, mileage, no.cyl) : 
+  arguments imply differing number of rows: 6, 5
+> type
+[1] "Compact"  "minivan"  "suv"      "roadster" "pickup"   "truck"   
+> mileage
+[1]  1256   237  6780 10000 12000
+> price
+[1]  36790   3445  66789   2455 768890
+> no.cyl
+[1] 3 4 4 4 4
+> cc("Compact","minivan","suv","roadster","pickup truck")
+Error: could not find function "cc"
+> mileage<-c("Compact","minivan","suv","roadster","pickup truck")
+> cars<-data.frame(type,price,mileage,no.cyl)
+Error in data.frame(type, price, mileage, no.cyl) : 
+  arguments imply differing number of rows: 6, 5
+> type
+[1] "Compact"  "minivan"  "suv"      "roadster" "pickup"   "truck"   
+> mileage<-c(1256,237,6780,10000,12000)
+> type<-c("Compact","minivan","suv","roadster","pickup truck")
+> cars<-data.frame(type,price,mileage,no.cyl)
+> cars
+          type  price mileage no.cyl
+1      Compact  36790    1256      3
+2      minivan   3445     237      4
+3          suv  66789    6780      4
+4     roadster   2455   10000      4
+5 pickup truck 768890   12000      4
+> my_list<-list(component1,component2)
+Error: object 'component1' not found
+> my_list<-list(type, mileage)
+> my_list
+[[1]]
+[1] "Compact"      "minivan"      "suv"          "roadster"     "pickup truck"
+
+[[2]]
+[1]  1256   237  6780 10000 12000
+
+> my_list<-list(type, mileage, cars)
+> my_list
+[[1]]
+[1] "Compact"      "minivan"      "suv"          "roadster"     "pickup truck"
+
+[[2]]
+[1]  1256   237  6780 10000 12000
+
+[[3]]
+          type  price mileage no.cyl
+1      Compact  36790    1256      3
+2      minivan   3445     237      4
+3          suv  66789    6780      4
+4     roadster   2455   10000      4
+5 pickup truck 768890   12000      4
+
+> 
+> my_list<-list(type, mileage, cars,no.cyl,c)
+> my_list
+[[1]]
+[1] "Compact"      "minivan"      "suv"          "roadster"     "pickup truck"
+
+[[2]]
+[1]  1256   237  6780 10000 12000
+
+[[3]]
+          type  price mileage no.cyl
+1      Compact  36790    1256      3
+2      minivan   3445     237      4
+3          suv  66789    6780      4
+4     roadster   2455   10000      4
+5 pickup truck 768890   12000      4
+
+[[4]]
+[1] 3 4 4 4 4
+
+[[5]]
+function (..., recursive = FALSE)  .Primitive("c")
+
+> my_vector<-1:10
+> my_vector
+ [1]  1  2  3  4  5  6  7  8  9 10
+> my_matrix<-matrix(1:9,nncol=3)
+Error in matrix(1:9, nncol = 3) : unused argument (nncol = 3)
+> my_matrix<-matrix(1:9,ncol=3)
+> my_list<-list(my_vector, my_matrix)
+> my_list
+[[1]]
+ [1]  1  2  3  4  5  6  7  8  9 10
+
+[[2]]
+     [,1] [,2] [,3]
+[1,]    1    4    7
+[2,]    2    5    8
+[3,]    3    6    9
+
+> my_list<-list(my_vector, my_matrix, cars)
+> my_list
+[[1]]
+ [1]  1  2  3  4  5  6  7  8  9 10
+
+[[2]]
+     [,1] [,2] [,3]
+[1,]    1    4    7
+[2,]    2    5    8
+[3,]    3    6    9
+
+[[3]]
+          type  price mileage no.cyl
+1      Compact  36790    1256      3
+2      minivan   3445     237      4
+3          suv  66789    6780      4
+4     roadster   2455   10000      4
+5 pickup truck 768890   12000      4
+
+> install.packages
+function (pkgs, lib, repos = getOption("repos"), contriburl = contrib.url(repos, 
+    type), method, available = NULL, destdir = NULL, dependencies = NA, 
+    type = getOption("pkgType"), configure.args = getOption("configure.args"), 
+    configure.vars = getOption("configure.vars"), clean = FALSE, 
+    Ncpus = getOption("Ncpus", 1L), verbose = getOption("verbose"), 
+    libs_only = FALSE, INSTALL_opts, quiet = FALSE, keep_outputs = FALSE, 
+    ...) 
+{
+    type2 <- .Platform$pkgType
+    if (type == "binary") {
+        if (type2 == "source") 
+            stop("type 'binary' is not supported on this platform")
+        else type <- type2
+        if (type == "both" && (!missing(contriburl) || !is.null(available))) 
+            stop("specifying 'contriburl' or 'available' requires a single type, not type = \"both\"")
+    }
+    if (is.logical(clean) && clean) 
+        clean <- "--clean"
+    if (is.logical(dependencies) && is.na(dependencies)) 
+        dependencies <- if (!missing(lib) && length(lib) > 1L) 
+            FALSE
+        else c("Depends", "Imports", "LinkingTo")
+    get_package_name <- function(pkg) {
+        gsub("_[.](zip|tar[.]gz|tar[.]bzip2|tar[.]xz)", "", gsub(.standard_regexps()$valid_package_version, 
+            "", basename(pkg)))
+    }
+    getConfigureArgs <- function(pkg) {
+        if (.Platform$OS.type == "windows") 
+            return(character())
+        if (length(pkgs) == 1L && length(configure.args) && length(names(configure.args)) == 
+            0L) 
+            return(paste0("--configure-args=", shQuote(paste(configure.args, 
+                collapse = " "))))
+        pkg <- get_package_name(pkg)
+        if (length(configure.args) && length(names(configure.args)) && 
+            pkg %in% names(configure.args)) 
+            config <- paste0("--configure-args=", shQuote(paste(configure.args[[pkg]], 
+                collapse = " ")))
+        else config <- character()
+        config
+    }
+    getConfigureVars <- function(pkg) {
+        if (.Platform$OS.type == "windows") 
+            return(character())
+        if (length(pkgs) == 1L && length(configure.vars) && length(names(configure.vars)) == 
+            0L) 
+            return(paste0("--configure-vars=", shQuote(paste(configure.vars, 
+                collapse = " "))))
+        pkg <- get_package_name(pkg)
+        if (length(configure.vars) && length(names(configure.vars)) && 
+            pkg %in% names(configure.vars)) 
+            config <- paste0("--configure-vars=", shQuote(paste(configure.vars[[pkg]], 
+                collapse = " ")))
+        else config <- character()
+        config
+    }
+    get_install_opts <- function(pkg) {
+        if (!length(INSTALL_opts)) 
+            character()
+        else paste(INSTALL_opts[[get_package_name(pkg)]], collapse = " ")
+    }
+    if (missing(pkgs) || !length(pkgs)) {
+        if (!interactive()) 
+            stop("no packages were specified")
+        if (.Platform$OS.type == "windows" || .Platform$GUI == 
+            "AQUA" || (capabilities("tcltk") && capabilities("X11") && 
+            suppressWarnings(tcltk::.TkUp))) {
+        }
+        else stop("no packages were specified")
+        if (is.null(available)) {
+            av <- available.packages(contriburl = contriburl, 
+                method = method)
+            if (missing(repos)) 
+                repos <- getOption("repos")
+            if (type != "both") 
+                available <- av
+        }
+        else av <- available
+        if (NROW(av)) {
+            pkgs <- select.list(sort(unique(rownames(av))), multiple = TRUE, 
+                title = "Packages", graphics = TRUE)
+        }
+        if (!length(pkgs)) 
+            stop("no packages were specified")
+    }
+    if (missing(lib) || is.null(lib)) {
+        lib <- .libPaths()[1L]
+        if (!quiet && length(.libPaths()) > 1L) 
+            message(sprintf(ngettext(length(pkgs), "Installing package into %s\n(as %s is unspecified)", 
+                "Installing packages into %s\n(as %s is unspecified)"), 
+                sQuote(lib), sQuote("lib")), domain = NA)
+    }
+    ok <- dir.exists(lib) & (file.access(lib, 2) == 0L)
+    if (length(lib) > 1 && any(!ok)) 
+        stop(sprintf(ngettext(sum(!ok), "'lib' element %s is not a writable directory", 
+            "'lib' elements %s are not writable directories"), 
+            paste(sQuote(lib[!ok]), collapse = ", ")), domain = NA)
+    if (length(lib) == 1L && .Platform$OS.type == "windows") {
+        ok <- dir.exists(lib)
+        if (ok) {
+            fn <- file.path(lib, paste("_test_dir", Sys.getpid(), 
+                sep = "_"))
+            unlink(fn, recursive = TRUE)
+            res <- try(dir.create(fn, showWarnings = FALSE))
+            if (inherits(res, "try-error") || !res) 
+                ok <- FALSE
+            else unlink(fn, recursive = TRUE)
+        }
+    }
+    if (length(lib) == 1L && !ok) {
+        warning(gettextf("'lib = \"%s\"' is not writable", lib), 
+            domain = NA, immediate. = TRUE)
+        userdir <- unlist(strsplit(Sys.getenv("R_LIBS_USER"), 
+            .Platform$path.sep))[1L]
+        if (interactive()) {
+            ask.yes.no <- function(msg) {
+                msg <- gettext(msg)
+                if (.Platform$OS.type == "windows") {
+                  flush.console()
+                  ans <- winDialog("yesno", sprintf(msg, sQuote(userdir)))
+                  if (ans != "YES") 
+                    "no"
+                  else ans
+                }
+                else {
+                  ans <- readline(paste(sprintf(msg, userdir), 
+                    " (y/n) "))
+                  if (substr(ans, 1L, 1L) == "n") 
+                    "no"
+                  else ans
+                }
+            }
+            ans <- ask.yes.no("Would you like to use a personal library instead?")
+            if (identical(ans, "no")) 
+                stop("unable to install packages")
+            lib <- userdir
+            if (!file.exists(userdir)) {
+                ans <- ask.yes.no("Would you like to create a personal library\n%s\nto install packages into?")
+                if (identical(ans, "no")) 
+                  stop("unable to install packages")
+                if (!dir.create(userdir, recursive = TRUE)) 
+                  stop(gettextf("unable to create %s", sQuote(userdir)), 
+                    domain = NA)
+                .libPaths(c(userdir, .libPaths()))
+            }
+        }
+        else stop("unable to install packages")
+    }
+    lib <- normalizePath(lib)
+    if (length(pkgs) == 1L && missing(repos) && missing(contriburl)) {
+        if ((type == "source" && any(grepl("[.]tar[.](gz|bz2|xz)$", 
+            pkgs))) || (type %in% "win.binary" && length(grep("[.]zip$", 
+            pkgs))) || (substr(type, 1L, 10L) == "mac.binary" && 
+            grepl("[.]tgz$", pkgs))) {
+            repos <- NULL
+            message("inferring 'repos = NULL' from 'pkgs'")
+        }
+        if (type == "both") {
+            if (type2 %in% "win.binary" && grepl("[.]zip$", pkgs)) {
+                repos <- NULL
+                type <- type2
+                message("inferring 'repos = NULL' from 'pkgs'")
+            }
+            else if (substr(type2, 1L, 10L) == "mac.binary" && 
+                grepl("[.]tgz$", pkgs)) {
+                repos <- NULL
+                type <- type2
+                message("inferring 'repos = NULL' from 'pkgs'")
+            }
+            else if (grepl("[.]tar[.](gz|bz2|xz)$", pkgs)) {
+                repos <- NULL
+                type <- "source"
+                message("inferring 'repos = NULL' from 'pkgs'")
+            }
+        }
+    }
+    if (length(pkgs) == 1L && is.null(repos) && type == "both") {
+        if ((type2 %in% "win.binary" && grepl("[.]zip$", pkgs)) || 
+            (substr(type2, 1L, 10L) == "mac.binary" && grepl("[.]tgz$", 
+                pkgs))) {
+            type <- type2
+        }
+        else if (grepl("[.]tar[.](gz|bz2|xz)$", pkgs)) {
+            type <- "source"
+        }
+    }
+    if (is.null(repos) && missing(contriburl)) {
+        tmpd <- destdir
+        nonlocalrepos <- any(web <- grepl("^(http|https|ftp)://", 
+            pkgs))
+        if (is.null(destdir) && nonlocalrepos) {
+            tmpd <- file.path(tempdir(), "downloaded_packages")
+            if (!file.exists(tmpd) && !dir.create(tmpd)) 
+                stop(gettextf("unable to create temporary directory %s", 
+                  sQuote(tmpd)), domain = NA)
+        }
+        if (nonlocalrepos) {
+            urls <- pkgs[web]
+            for (p in unique(urls)) {
+                this <- pkgs == p
+                destfile <- file.path(tmpd, basename(p))
+                res <- try(download.file(p, destfile, method, 
+                  mode = "wb", ...))
+                if (!inherits(res, "try-error") && res == 0L) 
+                  pkgs[this] <- destfile
+                else {
+                  pkgs[this] <- NA
+                }
+            }
+        }
+    }
+    if (type == "both") {
+        if (type2 == "source") 
+            stop("type == \"both\" can only be used on Windows or a CRAN build for Mac OS X")
+        if (!missing(contriburl) || !is.null(available)) 
+            type <- type2
+    }
+    getDeps <- TRUE
+    if (type == "both") {
+        if (is.null(repos)) 
+            stop("type == \"both\" cannot be used with 'repos = NULL'")
+        type <- "source"
+        contriburl <- contrib.url(repos, "source")
+        if (missing(repos)) 
+            repos <- getOption("repos")
+        available <- available.packages(contriburl = contriburl, 
+            method = method, fields = "NeedsCompilation")
+        pkgs <- getDependencies(pkgs, dependencies, available, 
+            lib)
+        getDeps <- FALSE
+        av2 <- available.packages(contriburl = contrib.url(repos, 
+            type2), method = method)
+        bins <- row.names(av2)
+        bins <- pkgs[pkgs %in% bins]
+        srcOnly <- pkgs[!pkgs %in% bins]
+        binvers <- av2[bins, "Version"]
+        hasSrc <- !is.na(av2[bins, "Archs"])
+        srcvers <- available[bins, "Version"]
+        later <- as.numeric_version(binvers) < srcvers
+        action <- getOption("install.packages.compile.from.source", 
+            "interactive")
+        if (!nzchar(Sys.which(Sys.getenv("MAKE", "make")))) 
+            action <- "never"
+        if (any(later)) {
+            msg <- ngettext(sum(later), "There is a binary version available but the source version is later", 
+                "There are binary versions available but the source versions are later")
+            cat("\n", paste(strwrap(msg, indent = 2, exdent = 2), 
+                collapse = "\n"), ":\n", sep = "")
+            out <- data.frame(binary = binvers, source = srcvers, 
+                needs_compilation = hasSrc, row.names = bins, 
+                check.names = FALSE)[later, ]
+            print(out)
+            cat("\n")
+            if (any(later & hasSrc)) {
+                if (action == "interactive" && interactive()) {
+                  msg <- ngettext(sum(later & hasSrc), "Do you want to install from sources the package which needs compilation?", 
+                    "Do you want to install from sources the packages which need compilation?")
+                  message(msg, domain = NA)
+                  res <- readline("y/n: ")
+                  if (res != "y") 
+                    later <- later & !hasSrc
+                }
+                else if (action == "never") {
+                  cat("  Binaries will be installed\n")
+                  later <- later & !hasSrc
+                }
+            }
+        }
+        bins <- bins[!later]
+        if (length(srcOnly)) {
+            s2 <- srcOnly[!(available[srcOnly, "NeedsCompilation"] %in% 
+                "no")]
+            if (length(s2)) {
+                msg <- ngettext(length(s2), "Package which is only available in source form, and may need compilation of C/C++/Fortran", 
+                  "Packages which are only available in source form, and may need compilation of C/C++/Fortran")
+                msg <- c(paste0(msg, ": "), sQuote(s2))
+                msg <- strwrap(paste(msg, collapse = " "), exdent = 2)
+                message(paste(msg, collapse = "\n"), domain = NA)
+                if (action == "interactive" && interactive()) {
+                  message("Do you want to attempt to install these from sources?")
+                  res <- readline("y/n: ")
+                  if (res != "y") 
+                    pkgs <- setdiff(pkgs, s2)
+                }
+                else if (action == "never") {
+                  cat("  These will not be installed\n")
+                  pkgs <- setdiff(pkgs, s2)
+                }
+            }
+        }
+        if (length(bins)) {
+            if (type2 == "win.binary") 
+                .install.winbinary(pkgs = bins, lib = lib, contriburl = contrib.url(repos, 
+                  type2), method = method, available = av2, destdir = destdir, 
+                  dependencies = NULL, libs_only = libs_only, 
+                  quiet = quiet, ...)
+            else .install.macbinary(pkgs = bins, lib = lib, contriburl = contrib.url(repos, 
+                type2), method = method, available = av2, destdir = destdir, 
+                dependencies = NULL, quiet = quiet, ...)
+        }
+        pkgs <- setdiff(pkgs, bins)
+        if (!length(pkgs)) 
+            return(invisible())
+        message(sprintf(ngettext(length(pkgs), "installing the source package %s", 
+            "installing the source packages %s"), paste(sQuote(pkgs), 
+            collapse = ", ")), "\n", domain = NA)
+        flush.console()
+    }
+    else if (getOption("install.packages.check.source", "yes") %in% 
+        "yes" && (type %in% "win.binary" || substr(type, 1L, 
+        10L) == "mac.binary")) {
+        if (missing(contriburl) && is.null(available) && !is.null(repos)) {
+            contriburl2 <- contrib.url(repos, "source")
+            if (missing(repos)) 
+                repos <- getOption("repos")
+            av1 <- tryCatch(suppressWarnings(available.packages(contriburl = contriburl2, 
+                method = method)), error = function(e) e)
+            if (inherits(av1, "error")) {
+                message("source repository is unavailable to check versions")
+                available <- available.packages(contriburl = contrib.url(repos, 
+                  type), method = method)
+            }
+            else {
+                srcpkgs <- pkgs[pkgs %in% row.names(av1)]
+                available <- available.packages(contriburl = contrib.url(repos, 
+                  type), method = method)
+                bins <- pkgs[pkgs %in% row.names(available)]
+                na <- srcpkgs[!srcpkgs %in% bins]
+                if (length(na)) {
+                  msg <- sprintf(ngettext(length(na), "package %s is available as a source package but not as a binary", 
+                    "packages %s are available as source packages but not as binaries"), 
+                    paste(sQuote(na), collapse = ", "))
+                  cat("\n   ", msg, "\n\n", sep = "")
+                }
+                binvers <- available[bins, "Version"]
+                srcvers <- binvers
+                OK <- bins %in% srcpkgs
+                srcvers[OK] <- av1[bins[OK], "Version"]
+                later <- as.numeric_version(binvers) < srcvers
+                if (any(later)) {
+                  msg <- ngettext(sum(later), "There is a binary version available (and will be installed) but the source version is later", 
+                    "There are binary versions available (and will be installed) but the source versions are later")
+                  cat("\n", paste(strwrap(msg, indent = 2, exdent = 2), 
+                    collapse = "\n"), ":\n", sep = "")
+                  print(data.frame(binary = binvers, source = srcvers, 
+                    row.names = bins, check.names = FALSE)[later, 
+                    ])
+                  cat("\n")
+                }
+            }
+        }
+    }
+    if (.Platform$OS.type == "windows") {
+        if (substr(type, 1L, 10L) == "mac.binary") 
+            stop("cannot install MacOS X binary packages on Windows")
+        if (type %in% "win.binary") {
+            .install.winbinary(pkgs = pkgs, lib = lib, contriburl = contriburl, 
+                method = method, available = available, destdir = destdir, 
+                dependencies = dependencies, libs_only = libs_only, 
+                quiet = quiet, ...)
+            return(invisible())
+        }
+        have_spaces <- grep(" ", pkgs)
+        if (length(have_spaces)) {
+            p <- pkgs[have_spaces]
+            dirs <- shortPathName(dirname(p))
+            pkgs[have_spaces] <- file.path(dirs, basename(p))
+        }
+        pkgs <- gsub("\\\\", "/", pkgs)
+    }
+    else {
+        if (substr(type, 1L, 10L) == "mac.binary") {
+            if (!grepl("darwin", R.version$platform)) 
+                stop("cannot install MacOS X binary packages on this platform")
+            .install.macbinary(pkgs = pkgs, lib = lib, contriburl = contriburl, 
+                method = method, available = available, destdir = destdir, 
+                dependencies = dependencies, quiet = quiet, ...)
+            return(invisible())
+        }
+        if (type %in% "win.binary") 
+            stop("cannot install Windows binary packages on this platform")
+        if (!file.exists(file.path(R.home("bin"), "INSTALL"))) 
+            stop("This version of R is not set up to install source packages\nIf it was installed from an RPM, you may need the R-devel RPM")
+    }
+    libpath <- .libPaths()
+    libpath <- libpath[!libpath %in% .Library]
+    if (length(libpath)) 
+        libpath <- paste(libpath, collapse = .Platform$path.sep)
+    cmd0 <- file.path(R.home("bin"), "R")
+    args0 <- c("CMD", "INSTALL")
+    output <- if (quiet) 
+        FALSE
+    else ""
+    env <- character()
+    outdir <- getwd()
+    if (is.logical(keep_outputs)) {
+        if (is.na(keep_outputs)) 
+            keep_outputs <- FALSE
+    }
+    else if (is.character(keep_outputs) && (length(keep_outputs) == 
+        1L)) {
+        if (!dir.exists(keep_outputs) && !dir.create(keep_outputs, 
+            recursive = TRUE)) 
+            stop(gettextf("unable to create %s", sQuote(keep_outputs)), 
+                domain = NA)
+        outdir <- normalizePath(keep_outputs)
+        keep_outputs <- TRUE
+    }
+    else stop(gettextf("invalid %s argument", sQuote("keep_outputs")), 
+        domain = NA)
+    if (length(libpath)) {
+        if (.Platform$OS.type == "windows") {
+            oldrlibs <- Sys.getenv("R_LIBS")
+            Sys.setenv(R_LIBS = libpath)
+            on.exit(Sys.setenv(R_LIBS = oldrlibs))
+        }
+        else env <- paste("R_LIBS", shQuote(libpath), sep = "=")
+    }
+    if (is.character(clean)) 
+        args0 <- c(args0, clean)
+    if (libs_only) 
+        args0 <- c(args0, "--libs-only")
+    if (!missing(INSTALL_opts)) {
+        if (!is.list(INSTALL_opts)) {
+            args0 <- c(args0, paste(INSTALL_opts, collapse = " "))
+            INSTALL_opts <- list()
+        }
+    }
+    else {
+        INSTALL_opts <- list()
+    }
+    if (verbose) 
+        message(gettextf("system (cmd0): %s", paste(c(cmd0, args0), 
+            collapse = " ")), domain = NA)
+    if (is.null(repos) & missing(contriburl)) {
+        update <- cbind(path.expand(pkgs), lib)
+        for (i in seq_len(nrow(update))) {
+            if (is.na(update[i, 1L])) 
+                next
+            args <- c(args0, get_install_opts(update[i, 1L]), 
+                "-l", shQuote(update[i, 2L]), getConfigureArgs(update[i, 
+                  1L]), getConfigureVars(update[i, 1L]), shQuote(update[i, 
+                  1L]))
+            status <- system2(cmd0, args, env = env, stdout = output, 
+                stderr = output)
+            if (status > 0L) 
+                warning(gettextf("installation of package %s had non-zero exit status", 
+                  sQuote(update[i, 1L])), domain = NA)
+            else if (verbose) {
+                cmd <- paste(c(cmd0, args), collapse = " ")
+                message(sprintf("%d): succeeded '%s'", i, cmd), 
+                  domain = NA)
+            }
+        }
+        return(invisible())
+    }
+    tmpd <- destdir
+    nonlocalrepos <- length(grep("^file:", contriburl)) < length(contriburl)
+    if (is.null(destdir) && nonlocalrepos) {
+        tmpd <- file.path(tempdir(), "downloaded_packages")
+        if (!file.exists(tmpd) && !dir.create(tmpd)) 
+            stop(gettextf("unable to create temporary directory %s", 
+                sQuote(tmpd)), domain = NA)
+    }
+    if (is.null(available)) 
+        available <- available.packages(contriburl = contriburl, 
+            method = method)
+    if (getDeps) 
+        pkgs <- getDependencies(pkgs, dependencies, available, 
+            lib)
+    foundpkgs <- download.packages(pkgs, destdir = tmpd, available = available, 
+        contriburl = contriburl, method = method, type = "source", 
+        quiet = quiet, ...)
+    if (length(foundpkgs)) {
+        if (verbose) 
+            message(gettextf("foundpkgs: %s", paste(foundpkgs, 
+                collapse = ", ")), domain = NA)
+        update <- unique(cbind(pkgs, lib))
+        colnames(update) <- c("Package", "LibPath")
+        found <- pkgs %in% foundpkgs[, 1L]
+        files <- foundpkgs[match(pkgs[found], foundpkgs[, 1L]), 
+            2L]
+        if (verbose) 
+            message(gettextf("files: %s", paste(files, collapse = ", \n\t")), 
+                domain = NA)
+        update <- cbind(update[found, , drop = FALSE], file = files)
+        if (nrow(update) > 1L) {
+            upkgs <- unique(pkgs <- update[, 1L])
+            DL <- .make_dependency_list(upkgs, available)
+            p0 <- .find_install_order(upkgs, DL)
+            update <- update[sort.list(match(pkgs, p0)), ]
+        }
+        if (Ncpus > 1L && nrow(update) > 1L) {
+            args0 <- c(args0, "--pkglock")
+            tmpd <- file.path(tempdir(), "make_packages")
+            if (!file.exists(tmpd) && !dir.create(tmpd)) 
+                stop(gettextf("unable to create temporary directory %s", 
+                  sQuote(tmpd)), domain = NA)
+            mfile <- file.path(tmpd, "Makefile")
+            conn <- file(mfile, "wt")
+            deps <- paste(paste0(update[, 1L], ".ts"), collapse = " ")
+            deps <- strwrap(deps, width = 75, exdent = 2)
+            deps <- paste(deps, collapse = " \\\n")
+            cat("all: ", deps, "\n", sep = "", file = conn)
+            aDL <- .make_dependency_list(upkgs, available, recursive = TRUE)
+            for (i in seq_len(nrow(update))) {
+                pkg <- update[i, 1L]
+                args <- c(args0, get_install_opts(update[i, 3L]), 
+                  "-l", shQuote(update[i, 2L]), getConfigureArgs(update[i, 
+                    3L]), getConfigureVars(update[i, 3L]), shQuote(update[i, 
+                    3L]), ">", paste0(pkg, ".out"), "2>&1")
+                cmd <- paste(c("MAKEFLAGS=", shQuote(cmd0), args), 
+                  collapse = " ")
+                deps <- aDL[[pkg]]
+                deps <- deps[deps %in% upkgs]
+                deps <- if (length(deps)) 
+                  paste(paste0(deps, ".ts"), collapse = " ")
+                else ""
+                cat(paste0(pkg, ".ts: ", deps), paste("\t@echo begin installing package", 
+                  sQuote(pkg)), paste0("\t@", cmd, " && touch ", 
+                  pkg, ".ts"), paste0("\t@cat ", pkg, ".out"), 
+                  "", sep = "\n", file = conn)
+            }
+            close(conn)
+            cwd <- setwd(tmpd)
+            on.exit(setwd(cwd))
+            status <- system2(Sys.getenv("MAKE", "make"), c("-k -j", 
+                Ncpus), stdout = output, stderr = output, env = env)
+            if (status > 0L) {
+                pkgs <- update[, 1L]
+                tss <- sub("[.]ts$", "", dir(".", pattern = "[.]ts$"))
+                failed <- pkgs[!pkgs %in% tss]
+                for (pkg in failed) system(paste0("cat ", pkg, 
+                  ".out"))
+                warning(gettextf("installation of one or more packages failed,\n  probably %s", 
+                  paste(sQuote(failed), collapse = ", ")), domain = NA)
+            }
+            if (keep_outputs) 
+                file.copy(paste0(update[, 1L], ".out"), outdir)
+            setwd(cwd)
+            on.exit()
+            unlink(tmpd, recursive = TRUE)
+        }
+        else {
+            outfiles <- paste0(update[, 1L], ".out")
+            for (i in seq_len(nrow(update))) {
+                outfile <- if (keep_outputs) 
+                  outfiles[i]
+                else output
+                args <- c(args0, get_install_opts(update[i, 3L]), 
+                  "-l", shQuote(update[i, 2L]), getConfigureArgs(update[i, 
+                    3L]), getConfigureVars(update[i, 3L]), update[i, 
+                    3L])
+                status <- system2(cmd0, args, env = env, stdout = outfile, 
+                  stderr = outfile)
+                if (!quiet && keep_outputs) 
+                  writeLines(readLines(outfile))
+                if (status > 0L) 
+                  warning(gettextf("installation of package %s had non-zero exit status", 
+                    sQuote(update[i, 1L])), domain = NA)
+                else if (verbose) {
+                  cmd <- paste(c(cmd0, args), collapse = " ")
+                  message(sprintf("%d): succeeded '%s'", i, cmd), 
+                    domain = NA)
+                }
+            }
+            if (keep_outputs && (outdir != getwd())) {
+                file.copy(outfiles, outdir)
+                file.remove(outfiles)
+            }
+        }
+        if (!quiet && nonlocalrepos && !is.null(tmpd) && is.null(destdir)) 
+            cat("\n", gettextf("The downloaded source packages are in\n\t%s", 
+                sQuote(normalizePath(tmpd, mustWork = FALSE))), 
+                "\n", sep = "", file = stderr())
+        libs_used <- unique(update[, 2L])
+        if (.Platform$OS.type == "unix" && .Library %in% libs_used) {
+            message("Updating HTML index of packages in '.Library'")
+            make.packages.html(.Library)
+        }
+    }
+    else if (!is.null(tmpd) && is.null(destdir)) 
+        unlink(tmpd, TRUE)
+    invisible()
+}
+<bytecode: 0x0000000014496930>
+<environment: namespace:utils>
+> install.packages("gdata")
+Installing package into ‘C:/Users/prabanch/Documents/R/win-library/3.3’
+(as ‘lib’ is unspecified)
+--- Please select a CRAN mirror for use in this session ---
+also installing the dependency ‘gtools’
+
+trying URL 'https://cran.fhcrc.org/bin/windows/contrib/3.3/gtools_3.5.0.zip'
+Content type 'application/zip' length 144200 bytes (140 KB)
+downloaded 140 KB
+
+trying URL 'https://cran.fhcrc.org/bin/windows/contrib/3.3/gdata_2.17.0.zip'
+Content type 'application/zip' length 1177954 bytes (1.1 MB)
+downloaded 1.1 MB
+
+package ‘gtools’ successfully unpacked and MD5 sums checked
+package ‘gdata’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+        C:\Users\prabanch\AppData\Local\Temp\RtmpQ3JCUN\downloaded_packages
+> 
