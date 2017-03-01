@@ -1,18 +1,51 @@
 #read the files
 require(xlsx)
 library(caret)
+library(ggplot2)
+## loading the library
+library(rpart)
+library(rpart.plot)
+library(rattle)
+library(RColorBrewer)
+library(lmtest)
+library(DMwR)
+library(pROC)
+library(pscl)
+library("Deducer")
+library(randomForest)
 
-
-loan <- read.xlsx("C:/Users/prabanch/Desktop/PGBA/FR/off campus assignment/training.xlsx", sheetName = 'training')
-View(loan)
-summary(loan)
-is.na(loan)
-nrow(loan)
-str(loan)
-loan$NumberOfDependents = as.numeric(loan$NumberOfDependents)
 library(caTools)
 #set seed
 set.seed(100)
+
+loan <- read.xlsx("training.xlsx", sheetName = 'training')
+View(loan)
+#Checking the data set
+nrow(loan)
+str(loan)
+summary(loan)
+#Visualise the outliers
+ggplot(loan, aes(loan$Casenum, loan$DebtRatio)) + geom_point()
+ggplot(loan, aes(loan$Casenum, loan$RevolvingUtilizationOfUnsecuredLines)) + geom_point()
+
+
+# calculate the pre-process parameters from the dataset
+preprocessParams <- preProcess(loan[-1], method=c("scale"))
+# summarize transform parameters
+print(preprocessParams)
+# transform the dataset using the parameters
+transformed <- predict(preprocessParams, loan[-1])
+# summarize the transformed dataset
+summary(transformed)
+
+
+is.na(loan)
+
+loan$NumberOfDependents = as.numeric(loan$NumberOfDependents)
+boxplot(loan[,-1])
+boxplot(loan$RevolvingUtilizationOfUnsecuredLines)
+summary(loan$DebtRatio)
+
 
 length(which(is.na(loan$NumberOfDependents)))
 table(loan$NumberOfDependents)
@@ -30,13 +63,12 @@ loan$NumberOfDependents = as.numeric(loan$NumberOfDependents)
 cor(loan) 
 #From the result it can be implied that the data is not correlated
 
-#ggplot
-library(ggplot2)
+
 ggplot(loan, aes(SeriousDlqin2yrs, DebtRatio)) + geom_boxplot()
 head(loan[,-1])
 #Apply Logistic regressn
 Model1 <- glm(SeriousDlqin2yrs~ .  , data = loan[,-1], family = binomial())
-library(lmtest)
+
 #Step 1: Log Likelihood Ratio Test - (Validity of the model)
 summary(Model1)
 
@@ -63,7 +95,7 @@ plot(glmVarImp)
 pred = as.numeric(pred)
 plot(roc(loan$SeriousDlqin2yrs, pred, direction="<"),col="red", lwd=3, main="ROC CUrve", print.auc=TRUE)
 
-library(DMwR)
+
 loan$SeriousDlqin2yrs = as.factor(loan$SeriousDlqin2yrs)
 loanSmote = SMOTE(SeriousDlqin2yrs~.,loan[,-1],  perc.over = 1000, perc.under = 100)
 table(loanSmote$SeriousDlqin2yrs)
@@ -76,9 +108,6 @@ table(loanSmote$SeriousDlqin2yrs)/nrow(loanSmote)
 ctrl <- trainControl(method = "repeatedcv", number = 10,  savePredictions = TRUE)
 glmModelSmoted <- train(SeriousDlqin2yrs~ .  , data = loanSmote, method="glm", family="binomial",trControl = ctrl)
 
-
-library(lmtest)
-#Step 1: Log Likelihood Ratio Test - (Validity of the model)
 
 summary(glmModelSmoted)
 pred_smote = predict(glmModelSmoted)
@@ -94,7 +123,7 @@ print(glmSmoteVarImp)
 # plot importance
 plot(glmSmoteVarImp)
 
-library(pROC)
+
 # Compute AUC for predicting Class with the variable CreditHistory.Critical
 pred_smote = as.numeric(pred_smote)
 plot(roc(loanSmote$SeriousDlqin2yrs, pred_smote, direction="<"),col="red", lwd=3, main="ROC CUrve", print.auc=TRUE)
@@ -114,9 +143,9 @@ nrow(loanSmote)
 (nmse.a1.glm <- mean((prediction - loanSmote$SeriousDlqin2yrs)^2)/
    mean((mean(loanSmote$SeriousDlqin2yrs)-loanSmote$SeriousDlqin2yrs)^2))
 
-library(pscl)
+
 pR2(glmModelSmoted)
-library("Deducer")
+
 rocplot(glmModelSmoted)
 
 par(mfrow = c(1, 2))
@@ -132,11 +161,7 @@ plot(loanSmote$NumberOfDependents, loanSmote$DebtRatio, pch = 19 + as.integer(lo
 #print(conf.matrix1)
 
 
-## loading the library
-library(rpart)
-library(rpart.plot)
-library(rattle)
-library(RColorBrewer)
+
 ## setting the control paramter inputs for rpart
 r.ctrl = rpart.control(minsplit=100, minbucket = 100 , cp = 0, xval = 10)
 
@@ -179,7 +204,6 @@ confusionMatrix(prunedPrediction,loanSmote$SeriousDlqin2yrs)
 #(nmse.a1.tree <- mean((prediction - loanSmote$SeriousDlqin2yrs)^2)/
 #   mean((mean(loanSmote$SeriousDlqin2yrs)-loanSmote$SeriousDlqin2yrs)^2))
 
-library(randomForest)
 
 # Fitting model
 #fit <- randomForest(Smoted_Loan$SeriousDlqin2yrs ~ ., Smoted_Loan,ntree=500)
