@@ -13,7 +13,7 @@ library(pROC)
 library(pscl)
 library("Deducer")
 library(randomForest)
-
+library(car)
 library(caTools)
 #set seed
 set.seed(100)
@@ -24,38 +24,54 @@ View(loan)
 nrow(loan)
 str(loan)
 summary(loan)
+boxplot(loan)
 #Visualise the outliers
 ggplot(loan, aes(loan$Casenum, loan$DebtRatio)) + geom_point()
 ggplot(loan, aes(loan$Casenum, loan$RevolvingUtilizationOfUnsecuredLines)) + geom_point()
 ggplot(loan, aes(loan$Casenum, loan$NumberOfOpenCreditLinesAndLoans)) + geom_point()
 
-findOutlier <- function(data, cutoff = 5) {
-  ## Calculate the sd
-  sds <- apply(loan[,-1], 2, sd, na.rm = TRUE)
-  ## Identify the cells with value greater than cutoff * sd (column wise)
-  result <- mapply(function(d, s) {
-    which(d > cutoff * s)
-  }, data, sds)
-  result
-}
+# findOutlier <- function(data, cutoff = 5) {
+#   ## Calculate the sd
+#   sds <- apply(loan[,-1], 2, sd, na.rm = TRUE)
+#   ## Identify the cells with value greater than cutoff * sd (column wise)
+#   result <- mapply(function(d, s) {
+#     which(d > cutoff * s)
+#   }, data, sds)
+#   result
+# }
+# 
+# apply(loan,1, is.na)
+# outliers <- findOutlier(loan[,-1])
+# outliers
+# 
+# loan[4855,]
+# 
+# removeOutlier <- function(data, outliers) {
+#   result <- mapply(function(d, o) {
+#     res <- d
+#     res[o] <- NA
+#     return(res)
+#   }, data, outliers)
+#   return(as.data.frame(result))
+# }
+# 
+# dataFilt <- removeOutlier(loan[,-1], outliers)
 
-outliers <- findOutlier(loan[,-1])
-outliers
 
-loan[4855,]
+x <- loan$DebtRatio
+qnt <- quantile(x, probs=c(.25, .75), na.rm = T)
+caps <- quantile(x, probs=c(.05, .95), na.rm = T)
+H <- 1.5 * IQR(x, na.rm = T)
+loan$DebtRatio[loan$DebtRatio > (qnt[2] + H)] = 0 
 
-removeOutlier <- function(data, outliers) {
-  result <- mapply(function(d, o) {
-    res <- d
-    res[o] <- NA
-    return(res)
-  }, data, outliers)
-  return(as.data.frame(result))
-}
+x <- loan$RevolvingUtilizationOfUnsecuredLines
+qnt <- quantile(x, probs=c(.25, .75), na.rm = T)
+caps <- quantile(x, probs=c(.05, .95), na.rm = T)
+H <- 1.5 * IQR(x, na.rm = T)
+loan$RevolvingUtilizationOfUnsecuredLines[loan$RevolvingUtilizationOfUnsecuredLines > (qnt[2] + H)] = 0
 
-dataFilt <- removeOutlier(data, outliers)
 
-is.na(loan)
+
 
 loan$NumberOfDependents = as.numeric(loan$NumberOfDependents)
 boxplot(loan[,-1])
@@ -65,11 +81,9 @@ summary(loan$DebtRatio)
 
 length(which(is.na(loan$NumberOfDependents)))
 table(loan$NumberOfDependents)
-
 loan[is.na(loan)] = 0
 
 
-plot(loan$DebtRatio, loan$NumberOfDependents)
 
 View(loan)
 #check ratio
@@ -80,23 +94,23 @@ cor(loan)
 #From the result it can be implied that the data is not correlated
 
 
-ggplot(loan, aes(SeriousDlqin2yrs, DebtRatio)) + geom_boxplot()
-head(loan[,-1])
-#Apply Logistic regressn
-Model1 <- glm(SeriousDlqin2yrs~ .  , data = loan[,-1], family = binomial())
+# head(loan[,-1])
+# #Apply Logistic regressn
+# Model1 <- glm(SeriousDlqin2yrs~ .  , data = loan[,-1], family = binomial())
+# 
+# #Step 1: Log Likelihood Ratio Test - (Validity of the model)
+# summary(Model1)
+# 
+# prediction = predict(Model1, type="response")
+# summary(prediction)
 
-#Step 1: Log Likelihood Ratio Test - (Validity of the model)
-summary(Model1)
-
-prediction = predict(Model1, type="response")
-summary(prediction)
-
+#1 Fit the glm model using caret package
 ctrl <- trainControl(method = "repeatedcv", number = 10, savePredictions = TRUE)
 glmModel <- train(SeriousDlqin2yrs~ .  , data = loan[,-1], method="glm", family="binomial",trControl = ctrl)
-
-?predict
+#Predict the values
 pred = predict(glmModel)
 str(pred)
+#Confusion Matrix
 confusionMatrix(data=pred, loan$SeriousDlqin2yrs)
 
 # estimate variable importance
@@ -111,16 +125,17 @@ plot(glmVarImp)
 pred = as.numeric(pred)
 plot(roc(loan$SeriousDlqin2yrs, pred, direction="<"),col="red", lwd=3, main="ROC CUrve", print.auc=TRUE)
 
-
-loan$SeriousDlqin2yrs = as.factor(loan$SeriousDlqin2yrs)
-loanSmote = SMOTE(SeriousDlqin2yrs~.,loan[,-1],  perc.over = 1000, perc.under = 100)
+#Synthetic minority over sampling technique from DMWR PACKAGE
+loan$SeriousDlqin2yrs = as.factor(loan$SeriousDlqin2yrs) #Convert to factor
+#Over sample minority items. 
+loanSmote = SMOTE(SeriousDlqin2yrs~.,loan[,-1],  perc.over = 1000, perc.under = 150)
+#Check the results
 table(loanSmote$SeriousDlqin2yrs)
+#Check the no of 1 & 0's
 table(loanSmote$SeriousDlqin2yrs)/nrow(loanSmote)
 
 
-
-
-#Apply Logistic regressn
+#Apply Logistic regression after OVer sampling
 ctrl <- trainControl(method = "repeatedcv", number = 10,  savePredictions = TRUE)
 glmModelSmoted <- train(SeriousDlqin2yrs~ .  , data = loanSmote, method="glm", family="binomial",trControl = ctrl)
 
@@ -128,8 +143,7 @@ glmModelSmoted <- train(SeriousDlqin2yrs~ .  , data = loanSmote, method="glm", f
 summary(glmModelSmoted)
 pred_smote = predict(glmModelSmoted)
 summary(pred_smote)
-
-
+#Confusion matrix
 confusionMatrix(pred_smote,loanSmote$SeriousDlqin2yrs)
 
 # estimate variable importance
@@ -146,23 +160,18 @@ plot(roc(loanSmote$SeriousDlqin2yrs, pred_smote, direction="<"),col="red", lwd=3
 
 prediction = predict(glmModelSmoted, data=loanSmote, type="response")
 
-
 confusionMatrix(pred_smote,loanSmote$SeriousDlqin2yrs)
 
 #normalized mean squared error (NMSE).
 
-loanSmote$SeriousDlqin2yrs = as.numeric(loanSmote$SeriousDlqin2yrs)
-(mae.a1.lm <- mean(abs(prediction - loanSmote$SeriousDlqin2yrs)))
-length(prediction)
-nrow(loanSmote)
-
-(nmse.a1.glm <- mean((prediction - loanSmote$SeriousDlqin2yrs)^2)/
-   mean((mean(loanSmote$SeriousDlqin2yrs)-loanSmote$SeriousDlqin2yrs)^2))
-
-
-pR2(glmModelSmoted)
-
-rocplot(glmModelSmoted)
+# loanSmote$SeriousDlqin2yrs = as.numeric(loanSmote$SeriousDlqin2yrs)
+# (mae.a1.lm <- mean(abs(prediction - loanSmote$SeriousDlqin2yrs)))
+# length(prediction)
+# nrow(loanSmote)
+# 
+# (nmse.a1.glm <- mean((prediction - loanSmote$SeriousDlqin2yrs)^2)/
+#    mean((mean(loanSmote$SeriousDlqin2yrs)-loanSmote$SeriousDlqin2yrs)^2))
+# 
 
 par(mfrow = c(1, 2))
 plot(loan$NumberOfDependents, loan$DebtRatio, pch = 19 + as.integer(loan$DebtRatio), main = "Original Data")
@@ -222,10 +231,10 @@ confusionMatrix(prunedPrediction,loanSmote$SeriousDlqin2yrs)
 
 
 # Fitting model
-#fit <- randomForest(Smoted_Loan$SeriousDlqin2yrs ~ ., Smoted_Loan,ntree=500)
+#fit <- randomForest(loanSmote$SeriousDlqin2yrs ~ ., loanSmote,ntree=500)
 #summary(fit)
 #Predict Output 
-#prediction= predict(fit,Smoted_Loan)
+#prediction= predict(fit,loanSmote)
 #PredictBinary = prediction > .5
 #summary(prediction)
 
@@ -235,7 +244,7 @@ table(loanSmote$SeriousDlqin2yrs,PredictBinary)
 #KNN Neighbour
 
 ctrl <- trainControl(method="repeatedcv",repeats = 10) #,classProbs=TRUE)
-knnFit <- train(Smoted_Loan$SeriousDlqin2yrs ~ ., data = Smoted_Loan, method = "knn", trControl = ctrl, preProcess = c("center","scale"), tuneLength = 20)
+knnFit <- train(loanSmote$SeriousDlqin2yrs ~ ., data = loanSmote, method = "knn", trControl = ctrl, preProcess = c("center","scale"), tuneLength = 20)
 
 #Output of kNN fit
 knnFit
@@ -243,7 +252,7 @@ knnFit
 plot(knnFit)
 knnPredict <- predict(knnFit )
 #Get the confusion matrix to see accuracy value and other parameter values
-confusionMatrix(knnPredict, Smoted_Loan$SeriousDlqin2yrs )
+confusionMatrix(knnPredict, loanSmote$SeriousDlqin2yrs )
 summary(knnPredict)
 str(knnPredict)
 # Compute AUC for predicting Class with the variable CreditHistory.Critical
