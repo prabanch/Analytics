@@ -27,17 +27,33 @@ summary(loan)
 #Visualise the outliers
 ggplot(loan, aes(loan$Casenum, loan$DebtRatio)) + geom_point()
 ggplot(loan, aes(loan$Casenum, loan$RevolvingUtilizationOfUnsecuredLines)) + geom_point()
+ggplot(loan, aes(loan$Casenum, loan$NumberOfOpenCreditLinesAndLoans)) + geom_point()
 
+findOutlier <- function(data, cutoff = 5) {
+  ## Calculate the sd
+  sds <- apply(loan[,-1], 2, sd, na.rm = TRUE)
+  ## Identify the cells with value greater than cutoff * sd (column wise)
+  result <- mapply(function(d, s) {
+    which(d > cutoff * s)
+  }, data, sds)
+  result
+}
 
-# calculate the pre-process parameters from the dataset
-preprocessParams <- preProcess(loan[-1], method=c("scale"))
-# summarize transform parameters
-print(preprocessParams)
-# transform the dataset using the parameters
-transformed <- predict(preprocessParams, loan[-1])
-# summarize the transformed dataset
-summary(transformed)
+outliers <- findOutlier(loan[,-1])
+outliers
 
+loan[4855,]
+
+removeOutlier <- function(data, outliers) {
+  result <- mapply(function(d, o) {
+    res <- d
+    res[o] <- NA
+    return(res)
+  }, data, outliers)
+  return(as.data.frame(result))
+}
+
+dataFilt <- removeOutlier(data, outliers)
 
 is.na(loan)
 
