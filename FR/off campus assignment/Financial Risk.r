@@ -19,6 +19,8 @@ library(caTools)
 set.seed(100)
 
 loan <- read.xlsx("training.xlsx", sheetName = 'training')
+l=loan
+loan=l
 View(loan)
 #Checking the data set
 nrow(loan)
@@ -71,25 +73,21 @@ H <- 1.5 * IQR(x, na.rm = T)
 loan$RevolvingUtilizationOfUnsecuredLines[loan$RevolvingUtilizationOfUnsecuredLines > (qnt[2] + H)] = 0
 
 
-
-
-loan$NumberOfDependents = as.numeric(loan$NumberOfDependents)
 boxplot(loan[,-1])
 boxplot(loan$RevolvingUtilizationOfUnsecuredLines)
-summary(loan$DebtRatio)
+summary(loan$SeriousDlqin2yrs)
+table(loan$SeriousDlqin2yrs)
 
-
-length(which(is.na(loan$NumberOfDependents)))
+#clean na values in Dependents column
 table(loan$NumberOfDependents)
-loan[is.na(loan)] = 0
-
+loan[loan$NumberOfDependents=='NA', ] <- '0'
+loan$NumberOfDependents = as.numeric(levels(loan$NumberOfDependents))[as.integer(loan$NumberOfDependents)]
 
 
 View(loan)
 #check ratio
 table(loan$SeriousDlqin2yrs)
 #Find correlation
-loan$NumberOfDependents = as.numeric(loan$NumberOfDependents)
 cor(loan) 
 #From the result it can be implied that the data is not correlated
 
