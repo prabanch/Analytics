@@ -116,4 +116,6 @@ head(result1)
 require(ggplot2)
 ggplot(result1, aes(x=sentiment)) + geom_bar()
 
+#haiiii
+
 
