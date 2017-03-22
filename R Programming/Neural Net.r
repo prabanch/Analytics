@@ -4,6 +4,7 @@
 
 mydata=read.csv("nm-logit.csv", header=TRUE)
 mydata
+summary(mydata)
 detach(mydata)
 attach(mydata)
 library(nnet)

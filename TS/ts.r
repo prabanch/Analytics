@@ -1,5 +1,6 @@
 install.packages('astsa')
 library(astsa)
+
 data(jj)
 plot(jj)
 plot(decompose(jj))
@@ -8,7 +9,7 @@ plot(decompose(lnjj))
 
 View(jj)
 plot(globtemp)
-plot(djia[,4])
+plot(djia[,4]) 
 str(djia)
 View(djia)
 
@@ -64,3 +65,15 @@ plot(decompose(lnjj))
 
 arima(champagne_sales)
 
+View(SENSEX)
+plot(SENSEX)1
+
+sx = ts(SENSEX[,-1], start =  c(2010,3), end = c(2017,3), frequency = 365)
+
+plot(sx)
+plot(decompose(sx))
+lnjj = log(sx)
+plot(lnjj)
+plot(decompose(lnjj))
+
+arima(sx)

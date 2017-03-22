@@ -2,6 +2,7 @@
 import pandas as pd
 from scipy.stats import mode
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix
 
 titanic = pd.read_csv('train.csv')
 titanic.head()
@@ -18,10 +19,16 @@ data_train = titanic[cols]
 
 titanic[cols].plot.hist()
 data_dependent = titanic[survived]
+
 model = LogisticRegression()
 model.fit(data_train, titanic[survived].values.ravel())
+
 print(model)
 print(model.score(data_train, titanic[survived].values.ravel()))
+predicted = model.predict(data_train)
+print(predicted)
+print (confusion_matrix(titanic[survived], predicted))
+
 titanic[cols].plot.hist()
 titanic_test = pd.read_csv('test.csv')
 # change male to 1 and female to 0
@@ -30,5 +37,4 @@ titanic_test = titanic_test.fillna(0)
 data_test = titanic_test[cols]
 predicted = model.predict(data_test)
 print(predicted)
-#predicted = model.predict(data_test)
 
